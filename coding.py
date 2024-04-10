@@ -4,7 +4,7 @@ class Stack:
     def __init__(self, size):
         #crates the numpty array about to be used
         self.stack = np.empty(size)
-        #self.top is a running index for the top of the stack, it starts at size - 1 to account for numpy arrays starting at index 0
+        #self.top is a running index for one above the top of the stack, it starts at size - 1 to account for numpy arrays starting at index 0
         self.top = size - 1
         #variable for maxsize, used for debugging
         self.maxsize = size
@@ -20,9 +20,11 @@ class Stack:
         if self.top == -1:
             return False
         else:
-        #self.top provides the index the top of the stack is currently at, the function uses that value to take 
+        #self.top provides the index for where the new top value should be placed 
             self.stack[self.top] = val
+        #updates the top
             self.top -= 1
+        #updates the csize
             self.csize += 1
             return True
 
