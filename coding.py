@@ -134,39 +134,55 @@ class FIFO:
         
         
     def gets(self, val):
+        #checks for the empty case
         if self.csize == 0:
             return []
         elif val > self.csize:
+            #temporary list that will be returned at the end of the function
             temp = []
+            #iterates this block over the whole queue as the given value is too big
             for i in range(self.csize):
+                #stores the first value before it's modified by the next for loop
                 removed_value = self.fifo[self.first]
+                #loop that shifts the whole queue up by one to account for numpy arrays
+                #having a fixed size
                 for i in range(self.csize):
+                    #checks for the case where the resulting index called by i+1 is out of bounds
                     if not(i == self.maxsize-1):
+                        #shifts the selected index up by 1
                         self.fifo[i] = self.fifo[i+1]
+                #takes the stored value and appends it to a list to return to the user later
                 temp.append(removed_value)
                 #updates the last index
                 self.last -= 1
+                #accounts for the last value not being removed by the previous for loop
                 self.fifo[self.last] = None
                 #updates the csize count
                 self.csize -= 1
             return temp
         else:
+            #temporary list that will be returned at the end of the function
             temp = []
+            #iterates this block over the given int to return the requested number of values from the queue
             for i in range(val):
+                #stores the first value before it's modified by the next for loop
                 removed_value = self.fifo[self.first]
+                #loop that shifts the whole queue up by one to account for numpy arrays
+                #having a fixed size
                 for i in range(self.csize):
+                    #checks for the case where the resulting index called by i+1 is out of bounds
                     if not(i == self.maxsize-1):
+                        #shifts the selected index up by 1
                         self.fifo[i] = self.fifo[i+1]
+                #takes the stored value and appends it to a list to return to the user later
                 temp.append(removed_value)
                 #updates the last index
                 self.last -= 1
+                #accounts for the last value not being removed by the previous for loop
                 self.fifo[self.last] = None
                 #updates the csize count
-                self.csize -= 1    
+                self.csize -= 1
             return temp
-            
-        pass
-
     
     #developer commands
     def debug(self):
