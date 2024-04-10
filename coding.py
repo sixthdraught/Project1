@@ -4,19 +4,19 @@ class Stack:
     def __init__(self, size):
         #crates the numpty array about to be used
         self.stack = np.empty(size)
-        #self.top is a running index for one above the top of the stack, it starts at size - 1 to account for numpy arrays starting at index 0
+        #self.top is a running index for one above the top value of the stack, it starts at size - 1 to account for numpy arrays starting at index 0
         self.top = size - 1
         #variable for maxsize, used for debugging
         self.maxsize = size
         #variable for current size
-        self.csize = 0.
+        self.csize = 0
     
     def size(self):
         #simple current size function
         return self.csize
     
     def push(self, val):
-        #0 is the lowest index value this class will use, -1 indicates the stack is full
+        #0 is the lowest index value this class will use(the highest point of the stack), -1 indicates the stack is full
         if self.top == -1:
             return False
         else:
