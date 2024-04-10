@@ -123,29 +123,31 @@ class FIFO:
             removed_value = self.fifo[self.first]
             #moves the whole queue up by one to compensate for the first value's removal
             for i in range(self.csize):
-                if not(i == self.maxsize):
+                if not(i == self.maxsize-1):
                     self.fifo[i] = self.fifo[i+1]
             #updates the last index
             self.last -= 1
+            self.fifo[self.last] = None
             #updates the csize count
             self.csize -= 1
             return removed_value
         
         
     def gets(self, val):
+        
         pass
 
     
     #developer commands
     def debug(self):
         #returns useful variables in the specified stack
-        return (self.top, self.maxsize, self.stack[self.top])
+        return (self.first, self.last, self.maxsize, self.fifo[self.last-1])
     
     def debug2(self):
-        #returns all values in the specified stack
+        #returns all values in the specified queue
         temp = []
         for i in range(self.maxsize):
-            temp.append(self.stack[i])
+            temp.append(self.fifo[i])
         return temp    
     
 class OQ:
