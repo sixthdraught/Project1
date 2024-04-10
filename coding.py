@@ -134,7 +134,37 @@ class FIFO:
         
         
     def gets(self, val):
-        
+        if self.csize == 0:
+            return []
+        elif val > self.csize:
+            temp = []
+            for i in range(self.csize):
+                removed_value = self.fifo[self.first]
+                for i in range(self.csize):
+                    if not(i == self.maxsize-1):
+                        self.fifo[i] = self.fifo[i+1]
+                temp.append(removed_value)
+                #updates the last index
+                self.last -= 1
+                self.fifo[self.last] = None
+                #updates the csize count
+                self.csize -= 1
+            return temp
+        else:
+            temp = []
+            for i in range(val):
+                removed_value = self.fifo[self.first]
+                for i in range(self.csize):
+                    if not(i == self.maxsize-1):
+                        self.fifo[i] = self.fifo[i+1]
+                temp.append(removed_value)
+                #updates the last index
+                self.last -= 1
+                self.fifo[self.last] = None
+                #updates the csize count
+                self.csize -= 1    
+            return temp
+            
         pass
 
     
