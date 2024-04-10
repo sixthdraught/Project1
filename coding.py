@@ -87,7 +87,7 @@ class Stack:
 
 class FIFO:
     def __init__(self, size):
-        #crates the numpty array about to be used
+        #creates the numpty array about to be used
         self.fifo = np.empty(size)
         #self.first is an index for the front of the queue, it starts at 0 as numpy arrays start at 0 and it 
         #stays 0
@@ -199,6 +199,128 @@ class FIFO:
         return temp    
     
 class OQ:
-    def __init__(self, val):
-        pass
+    def __init__(self, size):
+        #creates the numpty array about to be used
+        if isinstance(size, int):
+            if size > 0:
+                self.oq = np.empty(size)
+        #self.first is an index for the front of the queue, it starts at 0 as numpy arrays start at 0 and it 
+        #stays 0
+                self.first = 0
+        #keeps track of the back of the queue
+                self.last = 0
+        #variable for maxsize, used for debugging
+                self.maxsize = size
+        #variable for current size
+                self.csize = 0
+        else:
+            raise "enter an integer value greater than 0 to initialize the ordered queue"
+    
+    def size(self):
+        #simple current size function
+        return self.csize
+    
+    def insert(self, val):
+        #checks if the queue is full
+        if not (isinstance(val, int)):
+            return "ordered queues can only contain numbers"
+        elif self.csize == self.maxsize:
+            return False
+        elif self.csize > 0:
+            temp = 0
+            for i in range(self.csize):
+                if val < self.oq[i]:
+                    temp = i
+                    for i_2 in reversed(range(i, self.csize)):
+                        self.oq[i_2+1] = self.oq[i_2]
+                    self.oq[temp] = val
+                else:
+                    self.oq[self.csize] = val
+            self.csize += 1
+            return True
+        elif self.csize == 0:
+            self.oq[self.first] = val  
+            self.csize += 1  
+            return True
+        
+        #developer commands
+    def debug(self):
+        #returns useful variables in the specified stack
+        return (self.csize, self.maxsize, self.debug2())
+    
+    def debug2(self):
+        #returns all values in the specified queue
+        temp = []
+        for i in range(self.maxsize):
+            temp.append(self.oq[i])
+        return temp    
+    
 
+    def get(self):
+        #checks if the queue is empty
+        if self.csize == 0:
+            return None
+        else: 
+            #removes the first value
+            removed_value = self.fifo[self.first]
+            #moves the whole queue up by one to compensate for the first value's removal
+            for i in range(self.csize):
+                if not(i == self.maxsize-1):
+                    self.fifo[i] = self.fifo[i+1]
+            #updates the last index
+            self.last -= 1
+            self.fifo[self.last] = None
+            #updates the csize count
+            self.csize -= 1
+            return removed_value
+
+    def gets(self, val):
+        #checks for the empty case
+        if self.csize == 0:
+            return []
+        elif val > self.csize:
+            #temporary list that will be returned at the end of the function
+            temp = []
+            #iterates this block over the whole queue as the given value is too big
+            for i in range(self.csize):
+                #stores the first value before it's modified by the next for loop
+                removed_value = self.fifo[self.first]
+                #loop that shifts the whole queue up by one to account for numpy arrays
+                #having a fixed size
+                for i in range(self.csize):
+                    #checks for the case where the resulting index called by i+1 is out of bounds
+                    if not(i == self.maxsize-1):
+                        #shifts the selected index up by 1
+                        self.fifo[i] = self.fifo[i+1]
+                #takes the stored value and appends it to a list to return to the user later
+                temp.append(removed_value)
+                #updates the last index
+                self.last -= 1
+                #accounts for the last value not being removed by the previous for loop
+                self.fifo[self.last] = None
+                #updates the csize count
+                self.csize -= 1
+            return temp
+        else:
+            #temporary list that will be returned at the end of the function
+            temp = []
+            #iterates this block over the given int to return the requested number of values from the queue
+            for i in range(val):
+                #stores the first value before it's modified by the next for loop
+                removed_value = self.fifo[self.first]
+                #loop that shifts the whole queue up by one to account for numpy arrays
+                #having a fixed size
+                for i in range(self.csize):
+                    #checks for the case where the resulting index called by i+1 is out of bounds
+                    if not(i == self.maxsize-1):
+                        #shifts the selected index up by 1
+                        self.fifo[i] = self.fifo[i+1]
+                #takes the stored value and appends it to a list to return to the user later
+                temp.append(removed_value)
+                #updates the last index
+                self.last -= 1
+                #accounts for the last value not being removed by the previous for loop
+                self.fifo[self.last] = None
+                #updates the csize count
+                self.csize -= 1
+            return temp
