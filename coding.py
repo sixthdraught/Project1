@@ -222,20 +222,24 @@ class OQ:
     
     def insert(self, val):
         #checks if the queue is full
-        if not (isinstance(val, int)):
+        if not (isinstance(val, (float, int))):
             return "ordered queues can only contain numbers"
+        #checks if OQ is full
         elif self.csize == self.maxsize:
             return False
+        #makes sure the OQ isn't empty
         elif self.csize > 0:
-            temp = 0
+        #iterates the forecoming code to make sure 
             for i in range(self.csize):
                 if val < self.oq[i]:
                     temp = i
                     for i_2 in reversed(range(i, self.csize)):
                         self.oq[i_2+1] = self.oq[i_2]
                     self.oq[temp] = val
-                else:
-                    self.oq[self.csize] = val
+                    self.csize += 1
+                    return True
+    
+            self.oq[self.csize] = val
             self.csize += 1
             return True
         elif self.csize == 0:
