@@ -85,7 +85,74 @@ class Stack:
 
 class FIFO:
     def __init__(self, val):
-        pass
+        def __init__(self, size):
+        #crates the numpty array about to be used
+        self.stack = np.empty(size)
+        #self.first is an index for the front of the queue, it starts at -1
+        #to symbolize an empty stack as numpy arrays stat at index 0
+        self.first = -1
+        #variable for maxsize, used for debugging
+        self.maxsize = size
+        #variable for current size
+        self.csize = 0.
+    
+    def size(self):
+        #simple current size function
+        return self.csize
+    
+    def push(self, val):
+        #0 is the lowest index value this class will use, -1 indicates the stack is full
+        if self.first == -1:
+            return False
+        else:
+        #self.top provides the index the top of the stack is currently at, the function uses that value to take 
+            self.stack[self.top] = val
+            self.top -= 1
+            self.csize += 1
+            return True
+
+    def pop(self):
+        #checks if the stack is empty
+        if self.top == self.maxsize - 1:
+            return None
+        else: 
+            #if this line below just returned the popped value then the 2 lines below it wouldn't work
+            #so I saved the value in a temp variable for later use as the top index will change
+            popped_value = self.stack[self.top+1]
+            #updates the top index
+            self.top += 1
+            #updates the csize count
+            self.csize -= 1
+            return popped_value
+    def pops(self, val):
+        #checks if the value given is an integer and returns a helpful message if it isn't
+        if not isinstance(val, int):
+            return " the function pops() only accepts integers"
+        #checks if the stack is empty
+        elif self.top == self.maxsize - 1:
+            return []
+        #checks for the case where the amount of values to be popped is greater than the current size
+        elif self.csize < val:
+            temp = []
+            #creates a temporary list and then runs a for loop csize times using code from the pop function,
+            #appending values popped from the loop to the temp list
+            for i in range(self.csize):
+                popped_value = self.stack[self.top+1]
+                self.top += 1
+                self.csize -= 1
+                temp.append(popped_value)
+            #returns the popped list
+            return temp        
+        else: 
+            temp = []
+            #creates a temporary list and then runs a for loop val times using code from the pop function,
+            #appending values popped from the loop to the temp list
+            for i in range(val):
+                popped_value = self.stack[self.top+1]
+                self.top += 1
+                self.csize -= 1
+                temp.append(popped_value)
+            return temp
 
 class OQ:
     def __init__(self, val):
