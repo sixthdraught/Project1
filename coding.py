@@ -1,15 +1,39 @@
 import numpy as np
 class Stack:
-    #intializing the stack, figuring out whether to use numpy zeros or numpy empty
+    #intializing the stack uses numpty array
     def __init__(self, size):
-        #crates the numpty array about to be used
-        self.stack = np.empty(size)
+        #checks if the size given is an integer > 0
+        if isinstance(size, int):
+            if size > 0:
+        #creates the numpty array about to be used and allows for all data types to be pushed into it
+                self.stack = np.empty(size, dtype=object)
         #self.top is a running index for one above the top value of the stack, it starts at size - 1 to account for numpy arrays starting at index 0
-        self.top = size - 1
+                self.top = size - 1
         #variable for maxsize, used for debugging
-        self.maxsize = size
+                self.maxsize = size
         #variable for current size
-        self.csize = 0
+                self.csize = 0
+            else:
+                raise Exception("enter an integer value greater than 0 to initialize the stack")
+        else:
+            raise Exception("enter an integer value greater than 0 to initialize the stack")
+          
+  #  def resize(self, size):
+  #      if self.csize > size:
+#         return False
+#        elif isinstance(size, int):
+ #           if size > 0:
+  #              if size > self.maxsize:
+   #                 temp = np.empty(size, dtype=object)
+    #                for i in range(self.csize):
+     #                   temp[i] = self.stack[i]
+      #              self.maxsize = size
+       #             self.stack = temp
+        #    else:
+         #       return False
+        #else: 
+         #   return False
+        
     
     def size(self):
         #simple current size function
@@ -42,9 +66,9 @@ class Stack:
             self.csize -= 1
             return popped_value
     def pops(self, val):
-        #checks if the value given is an integer and returns a helpful message if it isn't
+        #checks if the value given is an integer
         if not isinstance(val, int):
-            return "the function pops() only accepts integers"
+            return False
         #checks if the stack is empty
         elif self.top == self.maxsize - 1:
             return []
@@ -71,6 +95,8 @@ class Stack:
                 temp.append(popped_value)
             return temp
         
+    
+        
         
         
     #developer commands
@@ -87,8 +113,8 @@ class Stack:
 
 class FIFO:
     def __init__(self, size):
-        #creates the numpty array about to be used
-        self.fifo = np.empty(size)
+        #creates the numpty array about to be used and allows for all data types to be pushed into it
+        self.fifo = np.empty(size, dtype=object)
         #self.first is an index for the front of the queue, it starts at 0 as numpy arrays start at 0 and it 
         #stays 0
         self.first = 0
@@ -200,9 +226,10 @@ class FIFO:
     
 class OQ:
     def __init__(self, size):
-        #creates the numpty array about to be used
+        #checks if the size given is an integer > 0
         if isinstance(size, int):
             if size > 0:
+                #creates the numpty array about to be used
                 self.oq = np.empty(size)
         #self.first is an index for the front of the queue, it starts at 0 as numpy arrays start at 0 and it 
         #stays 0
@@ -213,8 +240,11 @@ class OQ:
                 self.maxsize = size
         #variable for current size
                 self.csize = 0
+        #errors raised when the size is not an integer >0    
+            else:
+                raise Exception("enter an integer value greater than 0 to initialize the ordered queue")
         else:
-            raise "enter an integer value greater than 0 to initialize the ordered queue"
+            raise Exception("enter an integer value greater than 0 to initialize the ordered queue")
     
     def size(self):
         #simple current size function
